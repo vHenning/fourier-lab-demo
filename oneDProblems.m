@@ -42,12 +42,12 @@ aperture31 = [zeros(1, halfZeroPadding1), aperture21NoPadding, zeros(1, halfZero
 aperture32 = [zeros(1, halfZeroPadding2), aperture22NoPadding, zeros(1, halfZeroPadding2)];
 
 % Calculate all diffractions
-[x11, uz11, Iz11] = oneDDiffraction(aperture11, N1, wavelength, distance1);
-[x12, uz12, Iz12] = oneDDiffraction(aperture12, N2, wavelength, distance2);
-[x21, uz21, Iz21] = oneDDiffraction(aperture21, N1, wavelength, distance1);
-[x22, uz22, Iz22] = oneDDiffraction(aperture22, N2, wavelength, distance2);
-[x31, uz31, Iz31] = oneDDiffraction(aperture31, N1, wavelength, distance1);
-[x32, uz32, Iz32] = oneDDiffraction(aperture32, N2, wavelength, distance2);
+[x11, uz11, Iz11] = oneDDiffraction(aperture11, L1, wavelength, distance1);
+[x12, uz12, Iz12] = oneDDiffraction(aperture12, L2, wavelength, distance2);
+[x21, uz21, Iz21] = oneDDiffraction(aperture21, L1, wavelength, distance1);
+[x22, uz22, Iz22] = oneDDiffraction(aperture22, L2, wavelength, distance2);
+[x31, uz31, Iz31] = oneDDiffraction(aperture31, L1, wavelength, distance1);
+[x32, uz32, Iz32] = oneDDiffraction(aperture32, L2, wavelength, distance2);
 
 % Plot diffractions. First cut some of the zero padding
 cutEdgeAmount = 0.45;
