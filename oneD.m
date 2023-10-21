@@ -23,10 +23,6 @@ Q = power(10, offsetQ) * power(fresnelNumber, slopeQ)
 % And the same for M
 M = power(10, offsetM) * power(fresnelNumber, slopeM)
 
-% zeroPaddingRatio = 16;     % Q [-]
-% samplesPerAperture = 1000; % M [-]
-zeroPaddingRatio = floor(Q);
-samplesPerAperture = floor(M);
 Q = 16;
 zeroPaddingRatio = Q;
 samples = 2^16;
@@ -64,11 +60,11 @@ pattern = ifft(convoluted);
 
 intensity = pattern .* conj(pattern);
 
-figure(1);
-plot(phase(transferFunction));
-figure(2);
-plot(abs(convolutedShifted));
-figure(3);
+% figure(1);
+% plot(phase(transferFunction));
+% figure(2);
+% plot(abs(convolutedShifted));
+% figure(3);
 plot(intensity);
-figure(4);
-plot(aperture);
+% figure(4);
+% plot(aperture);
