@@ -1,4 +1,4 @@
-function [x, y, uz, Iz] = oneDDiffraction(aperture, totalLength, wavelength, distance)
+function [x, y, uz, Iz] = diffraction(aperture, totalLength, wavelength, distance)
     oneD = size(aperture, 1) == 1;
     % Calculate the discrete fourier transform of the aperture and shift it so
     % the DC part is in the middle. We could also shift the transfer function,
