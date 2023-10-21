@@ -1,4 +1,4 @@
-function [N, M, Q, L, l] = getParameters(apertureLength, wavelength, distance)
+function [N, M, Q, L, l] = getParameters(dimensions, apertureLength, wavelength, distance)
     % Find adequate sampling values
     % We use figure 5.5 (b) from Goodman's Intro to Fourier Optics for this.
     % We assume log(Q(log(NF)) and log(M(log(NF)) are linear.
@@ -20,4 +20,9 @@ function [N, M, Q, L, l] = getParameters(apertureLength, wavelength, distance)
     N = Q * M;         % total number of samples [-]
     L = apertureLength * N / M; % total length of aperture (including zero padding) [mm]
     l = apertureLength;
+
+    if dimensions > 1
+        M = floor(M / 10);
+        N = floor(N / 10);
+    end
 end
