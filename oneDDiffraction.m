@@ -1,4 +1,5 @@
 function [x, y, uz, Iz] = oneDDiffraction(aperture, totalLength, wavelength, distance)
+    oneD = size(aperture, 1) == 1;
     % Calculate the discrete fourier transform of the aperture and shift it so
     % the DC part is in the middle. We could also shift the transfer function,
     % however, this approach was chosen to be consistent with the transfer
@@ -6,29 +7,41 @@ function [x, y, uz, Iz] = oneDDiffraction(aperture, totalLength, wavelength, dis
     angSpec = fft2(aperture);
     angSpecShifted = fftshift(angSpec);
     
-    % Create our discrete frequency steps for fx (k). This is a 1D example so
-    % we only need fx.
+    % Create our discrete frequency steps for fx (k) and fy(p) if 2D.
+    % Create the transfer function after that.
     samplesX = size(aperture, 2);
     samplesY = size(aperture, 1);
     k = 1:samplesX;
-    p = (1:samplesY).';
+    if oneD
+        transferFunction = exp(1j * ((2 * pi * distance)/wavelength) * sqrt(1 - (wavelength / totalLength)^2 * ((k - samplesX / 2).^2)));
+    else
+        p = (1:samplesY).';
+        transferFunction = exp(1j * ((2 * pi * distance)/wavelength) * sqrt(1 - (wavelength / totalLength)^2 * ((k - samplesX / 2).^2 + (p - samplesY / 2).^2)));
+    end
 
-    % Create our transfer function as described in Goodman's Intro to Fourier
-    % Optics
-    transferFunction = exp(1j * ((2 * pi * distance)/wavelength) * sqrt(1 - (wavelength / totalLength)^2 * ((k - samplesX / 2).^2 + (p - samplesY / 2).^2)));
 
     % Create a mask. We only need the transfer function if the radius of
     % the frequency is smaller than 1/wavelength
     deltaF = 1 / totalLength;
     mask = ones(size(transferFunction));
-    for i = 1:size(mask, 1)
-        for j = 1: size(mask, 2)
-            freq = sqrt(deltaF * ((k(j) - (samplesX/2))^2 + (p(i) - (samplesY/2))^2));
+    if oneD
+        for i = 1:size(mask, 2)
+            freq = (k(i) - (samplesX/2)) * deltaF;
             if abs(freq) > 1 / wavelength
-                mask(i, j) = 0;
+               mask(i) = 0;
+            end
+        end
+    else
+        for i = 1:size(mask, 1)
+            for j = 1: size(mask, 2)
+                freq = sqrt(deltaF * ((k(j) - (samplesX/2))^2 + (p(i) - (samplesY/2))^2));
+                if abs(freq) > 1 / wavelength
+                    mask(i, j) = 0;
+                end
             end
         end
     end
+
 
     % Multiply element wise with our shifted angular spectrum
     convolutedShifted = angSpecShifted .* (transferFunction .* mask);
