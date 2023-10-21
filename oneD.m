@@ -28,10 +28,12 @@ M = power(10, offsetM) * power(fresnelNumber, slopeM)
 zeroPaddingRatio = floor(Q);
 samplesPerAperture = floor(M);
 Q = 16;
+zeroPaddingRatio = Q;
 samples = 2^16;
 M = floor(samples / Q);
+samplesPerAperture = M;
 % samples = zeroPaddingRatio * samplesPerAperture;           % N [-]
-% totalWidth = apertureLength * samples / samplesPerAperture; % L [mm]
+totalWidth = apertureLength * samples / samplesPerAperture; % L [mm]
 
 % Make the aperture function. This is just a rect.
 aperture = zeros(1, samples);
