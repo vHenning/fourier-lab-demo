@@ -1,7 +1,7 @@
 % EELE 581 1D Diffraction
 % We want to calculate the optical field behind a 1-dimensional aperture.
 % We do so using the angular spectrum/transfer function approach.
-
+clear;
 % Define our parameters
 apertureLength = 5;       % l [mm]
 distance = 100;           % z [mm]
@@ -53,7 +53,7 @@ k = 1:samples;
 transferFunction = exp(1j * ((2 * pi * distance)/wavelength) * sqrt(1 - (wavelength / totalWidth)^2 * ((k - (samples / 2)).^2)));
 
 % Multiply element wise with our shifted angular spectrum
-convolutedShifted = angSpecShifted .* (transferFunction .* mask);
+convolutedShifted = angSpecShifted .* transferFunction;
 
 % Shift our angular spectrum back so DC is at the beginning and do an
 % inverse fourier transform
@@ -68,3 +68,5 @@ figure(2);
 plot(abs(convolutedShifted));
 figure(3);
 plot(intensity);
+figure(4);
+plot(aperture);
