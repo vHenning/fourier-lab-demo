@@ -15,8 +15,19 @@ function [x, uz, Iz] = oneDDiffraction(aperture, totalLength, wavelength, distan
     % Optics
     transferFunction = exp(1j * ((2 * pi * distance)/wavelength) * sqrt(1 - (wavelength / totalLength)^2 * ((k - samples / 2)).^2));
 
+    % Create a mask. We only need the transfer function if the radius of
+    % the frequency is smaller than 1/wavelength
+    deltaF = 1 / totalLength;
+    mask = ones(1, size(transferFunction, 2));
+    for i = 1:size(mask, 2)
+        freq = (k(i) - (samples/2)) * deltaF;
+        if abs(freq) > 1 / wavelength
+            mask(i) = 0;
+        end
+    end
+
     % Multiply element wise with our shifted angular spectrum
-    convolutedShifted = angSpecShifted .* transferFunction;
+    convolutedShifted = angSpecShifted .* (transferFunction .* mask);
     
     % Shift our angular spectrum back so DC is at the beginning and do an
     % inverse fourier transform
