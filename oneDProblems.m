@@ -5,8 +5,8 @@ distance1 = 100;
 distance2 = 10000;
 
 % Get our sampling values
-[N1, M1, Q1, L1, l1] = getParameters(apertureLength, wavelength, distance1);
-[N2, M2, Q2, L2, l2] = getParameters(apertureLength, wavelength, distance2);
+[N1, M1, Q1, L1, l1] = getParameters(1, apertureLength, wavelength, distance1);
+[N2, M2, Q2, L2, l2] = getParameters(1, apertureLength, wavelength, distance2);
 
 % How long is one step
 deltaX1 = L1/N1;
@@ -42,12 +42,12 @@ aperture31 = [zeros(1, halfZeroPadding1), aperture21NoPadding, zeros(1, halfZero
 aperture32 = [zeros(1, halfZeroPadding2), aperture22NoPadding, zeros(1, halfZeroPadding2)];
 
 % Calculate all diffractions
-[x11, uz11, Iz11] = oneDDiffraction(aperture11, L1, wavelength, distance1);
-[x12, uz12, Iz12] = oneDDiffraction(aperture12, L2, wavelength, distance2);
-[x21, uz21, Iz21] = oneDDiffraction(aperture21, L1, wavelength, distance1);
-[x22, uz22, Iz22] = oneDDiffraction(aperture22, L2, wavelength, distance2);
-[x31, uz31, Iz31] = oneDDiffraction(aperture31, L1, wavelength, distance1);
-[x32, uz32, Iz32] = oneDDiffraction(aperture32, L2, wavelength, distance2);
+[x11, y11, uz11, Iz11] = diffraction(aperture11, L1, wavelength, distance1);
+[x12, y12, uz12, Iz12] = diffraction(aperture12, L2, wavelength, distance2);
+[x21, y21, uz21, Iz21] = diffraction(aperture21, L1, wavelength, distance1);
+[x22, y22, uz22, Iz22] = diffraction(aperture22, L2, wavelength, distance2);
+[x31, y31, uz31, Iz31] = diffraction(aperture31, L1, wavelength, distance1);
+[x32, y32, uz32, Iz32] = diffraction(aperture32, L2, wavelength, distance2);
 
 % Plot diffractions. First cut some of the zero padding
 cutEdgeAmount = 0.45;
