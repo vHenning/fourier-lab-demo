@@ -6,6 +6,7 @@ function [x, y, uz, Iz] = diffraction(aperture, totalLength, wavelength, distanc
     % function formula used in Goodman's Intro to Fourier Optics.
     angSpec = fft2(aperture);
     angSpecShifted = fftshift(angSpec);
+    clear angSpec;
     
     % Create our discrete frequency steps for fx (k) and fy(p) if 2D.
     % Create the transfer function after that.
@@ -45,10 +46,13 @@ function [x, y, uz, Iz] = diffraction(aperture, totalLength, wavelength, distanc
 
     % Multiply element wise with our shifted angular spectrum
     convolutedShifted = angSpecShifted .* (transferFunction .* mask);
+
+    clear transferFunction mask;
     
     % Shift our angular spectrum back so DC is at the beginning and do an
     % inverse fourier transform
     convoluted = ifftshift(convolutedShifted);
+    clear convolutedShifted;
     uz = ifft2(convoluted);
     
     Iz = uz .* conj(uz);
