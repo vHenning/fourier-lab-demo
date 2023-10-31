@@ -2,7 +2,11 @@ numberSquares = 3;
 squareSize = 0.5;
 squareDistance = 5;
 
-[N, M, Q, L, l] = getParameters(2, 10, 633e-6, 1000);
+wavelength = 633e-6;
+distance = 10000;
+apertureSize = 10;
+
+[N, M, Q, L, l] = getParameters(2, apertureSize, wavelength, distance);
 
 Q = 16;
 N = M * Q;
