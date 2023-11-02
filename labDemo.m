@@ -1,10 +1,10 @@
 wavelength = 633e-6;
-distance = 1000;
+distance = 10000;
 apertureSize = 10;
 
 [N, M, Q, L, l] = getParameters(2, apertureSize, wavelength, distance);
 
-aperture = getStackedSquares(N, M);
+aperture = getTriangle(L, l, N);
 
 [x, y, uz, Iz] = diffraction(aperture, L, wavelength, distance);
 
