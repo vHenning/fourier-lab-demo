@@ -1,7 +1,3 @@
-numberSquares = 3;
-squareSize = 0.5;
-squareDistance = 5;
-
 wavelength = 633e-6;
 distance = 1000;
 apertureSize = 10;
