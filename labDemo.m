@@ -4,10 +4,6 @@ apertureSize = 10;
 
 [N, M, Q, L, l] = getParameters(2, apertureSize, wavelength, distance);
 
-% Q = 16;
-% N = M * Q;
-% L = l * Q;
-
 aperture = getStackedSquares(N, M);
 
 [x, y, uz, Iz] = diffraction(aperture, L, wavelength, distance);
