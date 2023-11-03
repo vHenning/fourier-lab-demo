@@ -1,27 +1,46 @@
 wavelength = 633e-6;
-distance = 10000;
+distanceNear = 1000;
+distanceFar = 10000;
 apertureSize = 10;
 
-[N, M, Q, L, l] = getParameters(2, apertureSize, wavelength, distance);
+[N1, M1, Q1, L1, l1] = getParameters(2, apertureSize, wavelength, distanceNear);
+[N2, M2, Q2, L2, l2] = getParameters(2, apertureSize, wavelength, distanceFar);
 
-% aperture = getSingleSideBlock(N);
-% aperture = aperture';
-% aperture = getRectangle(N, M);
-aperture = getTriangle(L, l, N);
-% aperture = getPentagon(N, M);
-% aperture = getHexagon(N, M);
+% apertureNear = getSingleSideBlock(N1);
+% apertureFar = getSingleSideBlock(N2);
+% apertureNear = apertureNear';
+% apertureFar = apertureFar';
+% apertureNear = getRectangle(N1, M1);
+% apertureFar = getRectangle(N2, M2);
+% apertureNear = getTriangle(L1, l1, N1);
+% apertureFar = getTriangle(L2, l2, N2);
+% apertureNear = getPentagon(N1, M1);
+% apertureFar = getPentagon(N2, M2);
+apertureNear = getHexagon(N1, M1);
+apertureFar = getHexagon(N2, M2);
 
-[x, y, uz, Iz] = diffraction(aperture, L, wavelength, distance);
 
-cutAmountPerSide = floor((N-M) * 0.95 / 2);
-apertureCut = aperture(cutAmountPerSide:N-cutAmountPerSide, cutAmountPerSide:N-cutAmountPerSide);
-IzCut = Iz(cutAmountPerSide:N-cutAmountPerSide, cutAmountPerSide:N-cutAmountPerSide);
+[xNear, yNear, uzNear, IzNear] = diffraction(apertureNear, L1, wavelength, distanceNear);
+clear uzNear;
+[xFar, yFar, uzFar, IzFar] = diffraction(apertureFar, L2, wavelength, distanceFar);
+clear uzFar;
 
+cutAmountPerSide = floor((N1-M1) * 0.95 / 2);
+apertureCut = apertureNear(cutAmountPerSide:N1-cutAmountPerSide, cutAmountPerSide:N1-cutAmountPerSide);
+IzNearCut = IzNear(cutAmountPerSide:N1-cutAmountPerSide, cutAmountPerSide:N1-cutAmountPerSide);
 
-figure(1);
+cutAmountPerSide = floor((N2-M2) * 0.95 / 2);
+IzFarCut = IzFar(cutAmountPerSide:N2-cutAmountPerSide, cutAmountPerSide:N2-cutAmountPerSide);
+
+subplot(2,2,1);
 imshow(apertureCut);
-figure(2);
-imshow(IzCut);
+title('Aperture');
+subplot(2,2,2);
+imshow(IzNearCut);
+title('z = 1000 mm');
+subplot(2,2,4);
+imshow(IzFarCut);
+title('z = 10 000 mm')
 
 function aperture = getStackedSquares(N, M)
     aperture = zeros(N);
@@ -54,9 +73,9 @@ function aperture = getPentagon(N, M)
 end
 
 function aperture = getHexagon(N, M)
-    m = 2^13/2;
-    r = 300;
+    m = N/2;
+    r = M;
     x = [m+r, m+r*cosd(60), m + r * cosd(120), m+r*cosd(180), m+r*cosd(240), m+r*cosd(300)];
     y = [m, m+r*sind(60), m+r*sind(120), m+r*sind(180), m+r*sind(240), m+r*sind(300)];
-    aperture = poly2mask(x, y, 2^13, 2^13);
+    aperture = poly2mask(x, y, N, N);
 end
