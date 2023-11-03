@@ -9,7 +9,6 @@ n = 3;
     %5: Pentagon
     %6: Hexagon
 
-
 %% Create transfer function
 
 transferFcn = @(distance,f_x,f_y) ...
@@ -27,6 +26,7 @@ dist = [100;10000];
 %% Apertures
 switch n
     case 1
+        limits = [0, 2];
         left1 = zeros(NN(1), NN(1)/2);
         left2 = zeros(NN(2), NN(2)/2);
         right1 = ones(NN(1), NN(1)/2);
@@ -34,6 +34,7 @@ switch n
         grating_aperture1 = [right1, left1];
         grating_aperture2 = [right2, left2];
     case 2
+        limits = [0, 2];
         up1 = zeros(NN(1)/2, NN(1));
         down1 = ones(NN(1)/2, NN(1));
         up2 = zeros(NN(2)/2, NN(2));
@@ -41,7 +42,7 @@ switch n
         grating_aperture1 = [up1; down1];
         grating_aperture2 = [up2; down2];
     case 3
-
+        limits = [0, 0.6];
         w = 100;
         h = round(sqrt(3)/2 * w);
         X = Q * w;
@@ -94,6 +95,7 @@ switch n
         end
         grating_aperture2 = AA & triangle3 & triangle4;
     case 4
+        limits = [0, 0.6];
         width = 100;
         height = 50;
 
@@ -104,6 +106,7 @@ switch n
         AA((NN(2)/2-width/2):(NN(2)/2+width/2), (NN(2)/2-height/2):(NN(2)/2+height/2))=1;
         grating_aperture2 = AA;
     case 5 
+        limits = [0, 0.6];
         radius = 100;
         numSides = 5;
         theta = [linspace(0, 2*pi, numSides + 1)];
@@ -116,6 +119,7 @@ switch n
         grating_aperture1 = poly2mask(x1, y1, NN(1), NN(1));
         grating_aperture2 = poly2mask(x2, y2, NN(2), NN(2));
     case 6 
+        limits = [0, 0.75];
         m1 = NN(1)/2;
         r1 = 100;
         x1 = [m1+r1, m1+r1*cosd(60), m1 + r1 * cosd(120), m1+r1*cosd(180), m1+r1*cosd(240), m1+r1*cosd(300)];
@@ -165,11 +169,11 @@ axis image; colorbar;
 figure(2);
 clf;
 imagesc(Iz1)
-colorbar; clim([0,0.75]);
+colorbar; clim(limits);
 figure(3);
 clf;
 imagesc(Iz2);
-colorbar; clim([0,0.75]);
+colorbar; clim(limits);
 xlim([3700,4500]);
 ylim([3700,4500]);
 
