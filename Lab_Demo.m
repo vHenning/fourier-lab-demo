@@ -31,10 +31,10 @@ switch n
     case 2
         up1 = zeros(NN(1)/2, NN(1));
         down1 = ones(NN(1)/2, NN(1));
-        up1 = zeros(NN(2)/2, NN(2));
-        down1 = ones(NN(2)/2, NN(2));
+        up2 = zeros(NN(2)/2, NN(2));
+        down2 = ones(NN(2)/2, NN(2));
         grating_aperture1 = [up1; down1];
-        grating_aperture2 = [up2, down2];
+        grating_aperture2 = [up2; down2];
     case 3
 
         w = 100;
