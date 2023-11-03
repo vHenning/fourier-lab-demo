@@ -3,6 +3,11 @@ close all;
 %% Set Aperture Order
 n = 3;
     %1: Verticle half plane 
+    %2: Horizontal half plane
+    %3: Triangle
+    %4: Rectangle
+    %5: Pentagon
+    %6: Hexagon
 
 
 %% Create transfer function
